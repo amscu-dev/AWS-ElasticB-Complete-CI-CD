@@ -4,4 +4,37 @@ on:
     types: [created]
 jobs:
   trigger-pr-branch-deploy:
+    permissions:
+      actions: write
     runs-on: ubuntu-latest
+    if: github.event.issue.pull_request && github.event.issue.state == 'open' && github.event.comment.body == '/deploy'
+    steps:
+      - name: Get PR Head Ref
+        id: get-head-ref
+        uses: actions/github-script@v7
+        with:
+          result-encoding: string
+          script: |
+            const response = await github.rest.pulls.get({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            pull_request: context.issues.number
+              })
+            console.log(response.data)
+            return response.data.head.ref
+      - name: Trigger a Branch Deploy
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const response= github.rest.actions.createWorkflowDispatch({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            workflow_id: 'deploy.yaml'
+            ref: "${{steps.get-head-ref.outputs.result}}"
+            inputs: {
+              "aws-env": `eb-complete-cicd-pr-${{context.issue.number}}`
+              }
+              "github-env": "staging",
+              "report-pr": `${{context.issue.number}}`
+            })
+            console.log(response)
