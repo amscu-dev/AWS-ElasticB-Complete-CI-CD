@@ -32,19 +32,10 @@ jobs:
       - name: Build Project
         run: npm run build
 
-      - name: Check if .next folder exists
-        run: ls -ld .next
-
-      - name: List all files in .next recursively
-        run: ls -lR .next
-
-      - name: Print absolute path of .next
-        run: realpath .next || readlink -f .next
-
       - uses: actions/upload-artifact@v4
         with:
           name: build
-          path: .next
+          path: ".next/**/*"
 
       - name: Run Unit Test
         run: npm run test
