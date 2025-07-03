@@ -32,12 +32,10 @@ jobs:
       - name: Build Project
         run: npm run build
 
-      - name: List files in current directory
-        run: ls -la
       - uses: actions/upload-artifact@v4
         with:
           name: build
-          path: .next
+          path: ./.next
 
       - name: Run Unit Test
         run: npm run test
