@@ -51,6 +51,7 @@ jobs:
               ]
             }
       - name: Set Release Version
+        if: steps.changesets.outputs.published == 'true'
         id: get-version
         run: echo "version=${{fromJson(steps.changesets.outputs.publishedPackages)[0].version}}" >> $GITHUB_OUTPUT
 
