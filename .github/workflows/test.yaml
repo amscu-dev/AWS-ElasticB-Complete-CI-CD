@@ -32,16 +32,10 @@ jobs:
       - name: Build Project
         run: npm run build
 
-      - name: Debug artifact path
-        run: |
-          echo "PWD: $(pwd)"
-          ls -la
-          ls -la .next || echo ".next nu e aici"
-
       - uses: actions/upload-artifact@v4
         with:
           name: build
-          path: .next/
+          path: ${{ github.workspace }}/.next
 
       - name: Run Unit Test
         run: npm run test
