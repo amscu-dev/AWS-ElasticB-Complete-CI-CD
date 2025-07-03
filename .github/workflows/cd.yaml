@@ -13,6 +13,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch complet pentru a evita conflicte cu tag-uri existente
+          persist-credentials: false # Dezactivează token-ul implicit, ca să poți folosi PAT-ul personal pentru push-uri
 
       - name: Setup Node Enviroment
         uses: actions/setup-node@v4
