@@ -32,11 +32,12 @@ jobs:
       - name: Build Project
         run: npm run build
 
+      - name: Rename .next folder
+        run: mv .next next-build
       - uses: actions/upload-artifact@v4
         with:
-          name: build
-          path: |
-            .next/
+          name: next-build
+          path: next-build/
 
       - name: Run Unit Test
         run: npm run test
