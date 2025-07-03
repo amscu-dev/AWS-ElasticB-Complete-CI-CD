@@ -32,8 +32,8 @@ jobs:
       - name: Build Project
         run: npm run build
 
-      - name: Rename .next folder
-        run: mv .next next-build
+      - name: Copy and rename .next folder
+        run: cp -r .next next-build
       - uses: actions/upload-artifact@v4
         with:
           name: next-build
