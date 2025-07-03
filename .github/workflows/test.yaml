@@ -62,7 +62,19 @@ jobs:
 
       - name: Post a message in a channel
         uses: slackapi/slack-github-action@v2.1.0
+        if: failure()
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
           webhook-type: incoming-webhook
-          payload-file-path: "./.github/slack/test-failure-slack-payload.json"
+          payload: |
+            {
+              "blocks": [    
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "⚠️ *<https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.workflow}} workflow run>* failed."
+                  }
+                }
+              ]
+            }
