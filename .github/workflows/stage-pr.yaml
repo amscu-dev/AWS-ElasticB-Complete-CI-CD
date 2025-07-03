@@ -1,0 +1,7 @@
+name: Deploy PR Branch
+on:
+  issue_comment:
+    types: [created]
+jobs:
+  trigger-pr-branch-deploy:
+    runs-on: ubuntu-latest
